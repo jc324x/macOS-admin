@@ -183,7 +183,7 @@ internal_ip=$(ipconfig getifaddr en0)
 
 now=$(date +"%D %T")
 
-serial_num=$(system_profiler SPHardwareDataType | grep 'Serial Number (system)' | awk '{print $NF}')
+serial_number=$(system_profiler SPHardwareDataType | grep 'Serial Number (system)' | awk '{print $NF}')
 
 wifi_mac=$(ifconfig en0 | awk '/ether/{print $2}')
 
@@ -198,7 +198,7 @@ function echo_out_variables() {
   echo "external IP: $external_ip" 
   echo "internal IP: $internal_ip" 
   echo "now: $now" 
-  echo "serial number: $serial_num" 
+  echo "serial number: $serial_number" 
   echo "wifi MAC: $wifi_mac" 
   echo "wireless device: $wireless_device" 
 }
