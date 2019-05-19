@@ -13,6 +13,11 @@ fi
 # --- function(s) --- #
 
 function copyLog() {
+
+  if [ -z "$1" ]; then
+    echo "copyLog => [return] no argument passed"; return
+  fi
+
   local log_file; log_file="$1"
 
   if [ -z "$log_file" ]; then
@@ -49,6 +54,11 @@ function copyLog() {
 
 # exit early if application is open
 function exitIfOpen() {
+
+  if [ -z "$1" ]; then
+    echo "exitIfOpen => [return] no argument passed"; return
+  fi
+
   local target; target="$1"
   local check; check=$(pgrep -f "$target")
 
@@ -58,27 +68,60 @@ function exitIfOpen() {
 }
 
 # remove an application from /Applications
-function rmApplication() {
-  local application; application="$1"
-  local path_to_application; path_to_application="/Applications/$application.app"
+function rmApp() {
 
-  if [ ! -d "$path_to_application" ]; then
-    echo "rmApplication => [return] nothing at $path_to_application"; return
+  if [ -z "$1" ]; then
+    echo "rmApp => [return] no argument passed"; return
   fi
 
-  echo "rmApplication: removing '$application' at '$path_to_application'"
+  local app; app="$1"
+  local path_to_app; path_to_app="/Applications/$app.app"
 
-  /bin/rm -rf "$path_to_application"
+  if [ ! -d "$path_to_app" ]; then
+    echo "rmApplication => [return] nothing at $path_to_app"; return
+  fi
 
-  if [ ! -d "$path_to_application" ]; then
-    echo "rmApplication: removed '$1' from '$path_to_application'"
+  echo "rmApplication: removing '$app' at '$path_to_app'"
+
+  /bin/rm -rf "$path_to_app"
+
+  if [ ! -d "$path_to_app" ]; then
+    echo "rmApplication: removed '$1' from '$path_to_app'"
   else
-    echo "rmApplication => [exit 1] '$path_to_application' shouldn't exist"; exit 1
+    echo "rmApplication => [exit 1] '$path_to_app' shouldn't exist"; exit 1
+  fi
+}
+
+# remove a directory
+function rmDir() {
+
+  if [ -z "$1" ]; then
+    echo "rmDir => [return] no argument passed"; return
+  fi
+
+  local path_to_dir; path_to_dir="$1"
+
+  if [ ! -d "$path_to_dir" ]; then
+    echo "rmDir => [return] nothing at '$path_to_dir'"; return
+  fi
+
+  echo "rmDir: removing '$path_to_dir'"
+	/bin/rm -rf "$path_to_dir"
+
+  if [ ! -d "$path_to_dir" ]; then
+    echo "rmDir: removed '$path_to_dir'"
+  else
+    echo "rmDir => [exit 1] '$path_to_dir' shouldn't exist"
   fi
 }
 
 # remove a file
 function rmFile() {
+
+  if [ -z "$1" ]; then
+    echo "rmFile => [return] no argument passed"; return
+  fi
+
   local path_to_file; path_to_file="$1"
 
   if [ ! -e "$path_to_file" ]; then
@@ -100,53 +143,64 @@ function rmFile() {
   fi
 }
 
-# remove a directory
-function rmDir() {
-  local path_to_dir; path_to_dir="$1"
-
-  if [ ! -d "$path_to_dir" ]; then
-    echo "rmDir => [return] nothing at '$path_to_dir'"; return
-  fi
-
-  echo "rmDir: removing '$path_to_dir'"
-	/bin/rm -rf "$path_to_dir"
-
-  if [ ! -d "$path_to_dir" ]; then
-    echo "rmDir: removed '$path_to_dir'"
-  else
-    echo "rmDir => [exit 1] '$path_to_dir' shouldn't exist"
-  fi
-}
-
 # toggle load/unload with launchctl
 function toggleLaunchctl() {
-  local target; target="$1"
 
+  if [ -z "$1" ]; then
+    echo "toggleLaunchctl => [return] no argument passed"; return
+  fi
+
+  local target; target="$1"
   check=$(/bin/launchctl list | grep "$target")
+
   if [ "$check" != "" ]; then
     /bin/launchctl unload "$target"
   fi
     /bin/launchctl load "$target" 
+
+  check=$(/bin/launchctl list | grep "$target")
+
+  if [ "$check" != "" ]; then
+    echo "toggleLaunchctl: toggled '$target'"
+  fi
+    echo "toggleLaunchctl => [exit 1] toggled '$target' - not active"; exit 1
 }
 
 # verify that an application is closed
 function verifyClosed() {
-  # rewrite to exit early
-  local target; target="$1"
 
-  if /usr/bin/pgrep -f "$target"; then
-    echo "verifyClosed: closing '$target'"
-    killall "$target"
-  else
-    echo "verifyClosed => [return] '$target' is not running"
+  if [ -z "$1" ]; then
+    echo "verifyClosed => [return] no argument passed"; return
   fi
 
-  # confirm closed here
+  local target; target="$1"
+  check=$(/usr/bin/pgrep -f "$target")
+
+  if [ "$check" == "" ]; then
+    echo "verifyClosed => [return] '$target' is not running"; return
+  fi
+
+  echo "verifyClosed: closing '$target'"
+
+  /usr/bin/killall "$target"
+
+  check=$(/usr/bin/pgrep -f "$target")
+
+  if [ "$check" == "" ]; then
+    echo "verifyClosed: closed '$target'"
+  else
+    echo "verifyClosed => [exit 1] can't close $target'"; exit 1
+  fi
 }
 
 # verify org directories and their ownership/permissions
 function verifyOrgDirs() {
-  local org; org=$1
+
+  if [ -z "$1" ]; then
+    echo "verifyClosed => [return] no argument passed"; return
+  fi
+
+  local org; org="$1"
 
   org_scripts="/usr/local/$org/scripts"
   org_logs="/usr/local/$org/logs"
@@ -189,9 +243,9 @@ wifi_mac=$(ifconfig en0 | awk '/ether/{print $2}')
 
 wireless_device=$(/usr/sbin/networksetup -listallhardwareports | /usr/bin/grep -E -A2 'Airport|Wi-Fi' | /usr/bin/awk '/Device/ { print $2 }')
 
-# --- testing functions --- #
+# --- tests --- #
 
-function echo_out_variables() {
+function echoVariables() {
   echo "computer name: $computer_name"
   echo "current user: $current_user"
   echo "scutil dns: $scutil_dns" 
@@ -203,16 +257,45 @@ function echo_out_variables() {
   echo "wireless device: $wireless_device" 
 }
 
-# --- tests --- #
+function fileTests() {
+  local org; org="jychri"
+  local current_user; current_user=$(stat -f "%Su" /dev/console)
+	local desktop; desktop="/Users/$current_user/Desktop"
 
-echo -e "testing options (run with sudo)"
-echo -e "enter 1 to echo variables"
+  snippets_test_file="$desktop/snippets-test-file"
+  snippets_test_dir="$desktop/snippets-test-dir"
 
+  echo "fileTests: creating $snippets_test_file"
+  /usr/bin/touch "$snippets_test_file"
+
+  echo "fileTests: creating $snippets_test_dir"
+  /bin/mkdir "$snippets_test_dir"
+
+  rmFile "$snippets_test_file"
+  rmDir "$snippets_test_dir"
+}
+
+function workspace() {
+  verifyClosed "System Preferences"
+  verifyClosed ""
+}
+
+echo -e "1 => echo variables"
+echo -e "2 => file tests"
+echo -e "3 => workspace"
 read -r user_input
 case "$user_input" in
 
 1)
-  echo_out_variables
+  echoVariables
+;;
+
+2)
+  fileTests
+;;
+
+3)
+  workspace
 ;;
 
 esac
