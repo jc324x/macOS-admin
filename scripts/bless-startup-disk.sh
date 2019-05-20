@@ -16,5 +16,5 @@ bless="/usr/sbin/bless -mount"
 
 # --- main! --- #
 
-echo "main: Blessing $drive_name"
+echo "main: blessing $drive_name"
 "$bless" "$drive_name" -setBoot 
