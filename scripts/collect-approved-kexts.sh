@@ -14,7 +14,7 @@ fi
 
 sqlite3="/usr/bin/sqlite3"
 policy_config="/var/db/SystemPolicyConfiguration/KextPolicy"
-kext_policy="/usr/local/$org/logs/kext_policy"
+kext_policy_log="/usr/local/$org/logs/kext_policy"
 
 function copyLog() {
 
@@ -102,6 +102,6 @@ function verifyOrgDirs() {
 # --- main! --- #
 
 verifyOrgDirs "$org"
-echo "main: reading '$policy_config', writing to '$kext_policy'"
-"$sqlite3" -csv "$policy_config" "select team_id,bundle_id from kext_policy" >> "$kext_policy"
-copyLog "$kext_policy"
+echo "main: reading '$policy_config', writing to '$kext_policy_log'"
+"$sqlite3" -csv "$policy_config" "select team_id,bundle_id from kext_policy" >> "$kext_policy_log"
+copyLogToDesktop "$kext_policy_log"
