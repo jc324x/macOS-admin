@@ -46,13 +46,13 @@ function copyLogToDesktop() {
   check_owner=$(stat -f "%Su" "$desktop_file")
 
   if [ "$check_owner" != "$current_user" ]; then
-    echo "copyLogToDesktop [exit 1] '$desktop_file' owner == $check_owner"
+    echo "copyLogToDesktop [exit 1] '$desktop_file' owner == $check_owner"; exit 1
   fi
 
   check_permission=$(stat -f "%A %a" "$desktop_file" | cut -d' ' -f1)
 
   if [ "$check_permission" != 644 ]; then
-    echo "copyLogToDesktop [exit 1] '$desktop_file' permission == $check_permission"
+    echo "copyLogToDesktop [exit 1] '$desktop_file' permission == $check_permission"; exit 1
   fi
 
   if [ -e "$desktop_file" ]; then

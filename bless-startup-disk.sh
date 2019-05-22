@@ -18,3 +18,4 @@ bless="/usr/sbin/bless -mount"
 
 echo "main: blessing $drive_name"
 "$bless" "$drive_name" -setBoot 
+# TODO: confirm?

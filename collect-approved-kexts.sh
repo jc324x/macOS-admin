@@ -152,5 +152,6 @@ function copyLogToDesktop() {
 
 verifyOrgDirs "$org"
 echo "main: reading '$policy_config', writing to '$kext_policy_log'"
+# TODO: test on MDM'd machine
 "$sqlite3" -csv "$policy_config" "select team_id,bundle_id from kext_policy" >> "$kext_policy_log"
 copyLogToDesktop "$kext_policy_log"
