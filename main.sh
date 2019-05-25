@@ -75,7 +75,7 @@ function exitIfOpen() {
   fi
 }
 
-function plistWrite() {
+function defaultsWrite() {
   if [ -z "$1" ]; then
     echo "plistWrite => [exit 1] no plist argument passed"; exit 1
   fi
@@ -90,21 +90,27 @@ function plistWrite() {
 
   local plist; plist="$1"
   local key; key="$2"
-  local new_value; new_value="$3"
+  local value; value="$3"
 
-  local old_value;
+  echo "plistWrite: checking the initial value for '$key' in '$plist'"
 
-  defaults="/usr/bin/defaults write"
-  pbuddy="/usr/libexec/PlistBuddy -c"
+  local defaults; defaults="/usr/bin/defaults"
+  local pbuddy; pbuddy="/usr/libexec/PlistBuddy"
 
-  # old_value=$(/usr/bin/defaults read $plist "$key")
+  local init_value; init_value=$($pbuddy -c print ":$key" "$plist")
+  echo "plistWrite: initial value is '$init_value' for '$key' in '$plist'"; 
 
-  /usr/bin/defaults write $plist $key $value
+  echo "plistWrite: writing value '$value' for '$key' in '$plist'"; 
+  $defaults write "$plist" "$key" "$value"
 
+  local final_value; final_value=$($pbuddy -c print ":$key" "$plist")
 
-
+  if [ "$value" == "$final_value" ]; then
+    echo "plistWrite: confirmed '$value' for '$key' in '$plist'"; exit 1
+  else
+    echo "plistWrite => [exit 1] '$value' != '$final_value'"; exit 1
+  fi
 }
-
 
 # remove an application from /Applications
 function rmApp() {
