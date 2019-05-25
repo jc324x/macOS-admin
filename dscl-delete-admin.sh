@@ -2,7 +2,7 @@
 
 # author: Jon Christensen, date: 2019-05-01, macOS: 10.14.4, GitHub / Jamf Nation: jychri 
 
-# summary: removes the current user from the admin group
+# summary: removes $current_user from the admin group
 
 # --- do not edit below --- #
 

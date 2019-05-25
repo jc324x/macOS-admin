@@ -2,6 +2,9 @@
 
 # author: Jon Christensen, date: 2019-05-01, macOS: 10.14.4, GitHub / Jamf Nation: jychri 
 
+# summary: edits the $login_window plist, enables autologin for $user
+# note: TODO put a note here about how it needs a 'kpass' file
+
 # --- set value(s) here --- #
 
 user=""

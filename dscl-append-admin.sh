@@ -2,7 +2,7 @@
 
 # author: Jon Christensen, date: 2019-05-01, macOS: 10.14.4, GitHub / Jamf Nation: jychri 
 
-# summary: adds the current user to the admin group
+# summary: appends $current_user to the admin group
 
 # --- do not edit below --- #
 

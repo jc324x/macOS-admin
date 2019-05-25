@@ -2,6 +2,8 @@
 
 # author: Jon Christensen, date: 2019-05-01, macOS: 10.14.4, GitHub / Jamf Nation: jychri 
 
+# summary: writes to .../$org/logs/kext_policy, copies it to the Desktop
+
 # --- set value(s) here --- #
 
 org="jychri"

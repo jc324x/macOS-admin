@@ -75,6 +75,37 @@ function exitIfOpen() {
   fi
 }
 
+function plistWrite() {
+  if [ -z "$1" ]; then
+    echo "plistWrite => [exit 1] no plist argument passed"; exit 1
+  fi
+
+  if [ -z "$2" ]; then
+    echo "plistWrite => [exit 1] no key argument passed"; exit 1
+  fi
+
+  if [ -z "$3" ]; then
+    echo "plistWrite => [exit 1] no value argument passed"; exit 1
+  fi
+
+  local plist; plist="$1"
+  local key; key="$2"
+  local new_value; new_value="$3"
+
+  local old_value;
+
+  defaults="/usr/bin/defaults write"
+  pbuddy="/usr/libexec/PlistBuddy -c"
+
+  # old_value=$(/usr/bin/defaults read $plist "$key")
+
+  /usr/bin/defaults write $plist $key $value
+
+
+
+}
+
+
 # remove an application from /Applications
 function rmApp() {
 

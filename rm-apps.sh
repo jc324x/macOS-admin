@@ -2,6 +2,8 @@
 
 # author: Jon Christensen, date: 2018-10-18, macOS: 10.14, GitHub / Jamf Nation: jychri 
 
+# summary: all $apps are closed, then deleted
+
 # --- set value(s) here --- #
 
 apps=(

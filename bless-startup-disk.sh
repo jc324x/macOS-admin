@@ -2,6 +2,8 @@
 
 # author: Jon Christensen, date: 2018-02-05, macOS: 10.13.3 
 
+# summary: blesses and confirms the boot disk
+
 # --- set value(s) here --- #
 
 drive_name="Macintosh HD"

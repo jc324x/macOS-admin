@@ -2,7 +2,7 @@
 
 # author: Jon Christensen, date: 2019-05-01, macOS: 10.14.4, GitHub / Jamf Nation: jychri 
 
-# summary: disables auto update for Java, updates are managed by the JSS.
+# summary: writes to the $java_updater_plist, disables Java updates 
 
 # --- do not edit below --- #
 

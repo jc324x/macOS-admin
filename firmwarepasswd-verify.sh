@@ -2,7 +2,7 @@
 
 # author: Jon Christensen, date: 2019-05-01, macOS: 10.14.4, GitHub / Jamf Nation: jychri 
 
-# summary: verifies the firmware password
+# summary: verifies the firmware $password
 
 # --- set value(s) here --- #
 

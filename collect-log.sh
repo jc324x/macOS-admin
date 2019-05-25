@@ -2,9 +2,11 @@
 
 # author: Jon Christensen, date: 2019-05-20, macOS: 10.14.4, GitHub / Jamf Nation: jychri 
 
+# summary: copies $log_file to ~/Desktop
+
 # --- set value(s) here --- #
 
-log_file="/usr/local/jychri/hello_world"
+log_file=""
 
 if [ "$4" != "" ] && [ "$log_file" == "" ]; then
 	log_file=$4

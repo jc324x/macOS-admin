@@ -2,7 +2,7 @@
 
 # author: Jon Christensen, date: 2019-05-01, macOS: 10.14.4, GitHub / Jamf Nation: jychri 
 
-# summary: deletes the firmware password
+# summary: deletes the firmware $password
 
 # --- set value(s) here --- #
 

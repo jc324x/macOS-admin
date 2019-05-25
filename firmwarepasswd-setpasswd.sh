@@ -2,7 +2,7 @@
 
 # author: Jon Christensen, date: 2018-07-17, macOS: 10.13.6, GitHub / Jamf Nation: jychri 
 
-# summary: sets the firmware password
+# summary: sets the firmware $password
 
 # --- set value(s) here --- #
 

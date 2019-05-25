@@ -2,6 +2,8 @@
 
 # author: Jon Christensen, date: 2018-01-17, macOS: 10.13.2 
 
+# summary: deletes the $MAU2 directory, stops automatic updates for Microsoft Office
+
 # --- do not edit below --- #
 
 function rmDir() {
